@@ -1,0 +1,13 @@
+<div class="wrapper">
+  <h1 class="page-title">Delete account</h1>
+  <h2 class="error-msg">{{errorMessage}}</h2>
+  <p class="warning">
+    Are you sure that you want to delete the account {{userId}} ?
+    <br/>
+    All data related to the account will be deleted. The operation can not be undone.
+  </p>
+  <div class="delete-button">
+      <button [disabled]="loading" class="btn button" mat-button (click)="goBack()">Cancel</button>
+      <button [disabled]="loading" class="btn button" color="warn" mat-button (click)="deleteUser()">Delete</button>
+  </div>
+</div>

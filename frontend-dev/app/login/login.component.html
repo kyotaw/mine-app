@@ -1,0 +1,21 @@
+<div class="wrapper">
+  <h1 class="page-title">Login</h1>
+  <h2 class="error-msg">{{errorMessage}}</h2>
+  <div class="form-container">
+    <mat-form-field class="form-item">
+      <input matInput placeholder="Enter your email" [formControl]="email" required>
+      <mat-error *ngIf="email.invalid">{{emailErrorMessage}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-item">
+      <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" [(ngModel)]="password" #master="ngModel" required>
+      <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </mat-form-field>
+
+    <div>
+      <button [disabled]="loading" class="btn button-login" mat-button (click)="login()">LOG IN</button>
+      <a class="btn btn-link" routerLink="/signup">SIGN UP</a>
+    </div>
+
+  </div>
+</div>

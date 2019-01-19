@@ -1,0 +1,13 @@
+.wrapper {
+  margin: 0 auto;
+  max-width: 600px;
+  height: auto;
+}
+
+.delete-account-item {
+  margin-top: 30px;
+}
+
+.delete-button {
+  margin-left: auto;
+}

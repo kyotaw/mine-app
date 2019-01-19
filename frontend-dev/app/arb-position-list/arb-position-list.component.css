@@ -1,0 +1,53 @@
+.sidenav-wrapper {
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+.sidenav-item {
+}
+
+.basic-container {
+  padding: 10px;
+  padding-left: 40px;
+  height: 100%;
+}
+
+mat-drawer-container {
+  position: relative;
+#  height: 100%;
+#  min-height: 100%;
+#  width: 100%;
+#  min-width: 100%;
+}
+
+mat-drawer {
+  position: fixed;
+  top: 128px;
+}
+
+mat-drawer-content {
+  min-height: 100%;
+}
+
+a.category {
+  margin-left: 10px;
+  margin-right: 10px;
+  box-sizing: border-box;
+  color: #333;
+  cursor: pointer;
+  display: block;
+  max-width: 200px;
+  overflow-wrap: break-word;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-decoration: none;
+  text-align: left;
+  width: 93%;
+  word-wrap: break-word;
+}
+
+a.category:hover {
+  background-color: #dbdbdb;
+}

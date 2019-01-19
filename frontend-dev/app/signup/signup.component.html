@@ -1,0 +1,23 @@
+<div class="wrapper">
+  <h1 class="page-title">Sign up</h1>
+  <h2 class="error-msg">{{errorMessage}}</h2>
+  <div class="form-container">
+    <mat-form-field class="form-item">
+      <input matInput placeholder="Enter your email" [formControl]="email" required>
+      <mat-error *ngIf="email.invalid">{{emailErrorMessage}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-item">
+      <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" [(ngModel)]="password.master" #master="ngModel" required>
+      <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </mat-form-field>
+    <mat-form-field class="form-item">
+      <input matInput placeholder="Confirm password" [type]="hide_confirm ? 'password' : 'text'" [(ngModel)]="password.confirm" #master="ngModel" (blur)="validatePassword()">
+      <mat-icon matSuffix (click)="hide_confirm=!hide_confirm">{{hide_confirm ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </mat-form-field>
+    <span *ngIf="hasPassowrdDoNotMatchError" class="inline-error-msg">{{passwordDoNotMatchMessage}}</span>
+
+    <div>
+      <button [disabled]="loading" class="btn button-signup" mat-button (click)="signUp()">SIGN UP</button>
+    </div>
+  </div>
+</div>

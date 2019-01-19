@@ -1,0 +1,39 @@
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.links-wrapper {
+  width: 100%;
+  display: flex;
+}
+
+.link-container {
+  padding: 10px 20px;
+  font-size: 22px;
+  font-weight: 400;
+  cursor: pointer;
+  border-right: 1px solid #CCCCCC;
+  transition: all 0.3s ease 0s;
+}
+
+.link-container:hover {
+  background-color: #FFFFFF;
+}
+
+.user-id {
+  font-size: 14px;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a.public-link {
+  color: white;
+}
+
+a.private-link {
+  color: #666666;
+}
+

@@ -1,0 +1,19 @@
+<div class="wrapper">
+  <h1 class="page-title">Profile</h1>
+  <mat-list>
+    <mat-list-item>
+      <h3 matLine>ID:</h3>
+      <span matLine>{{userId}}</span>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item >
+      <h3 matLine>Password:</h3>
+      <span matLine>*********</span>
+      <button class="btn" mat-button routerLink="/profile/changepassword">Edit</button>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item class="delete-account-item" >
+      <button class="btn delete-button" color="warn" mat-button routerLink="/profile/deleteaccount">Delete account</button>
+    </mat-list-item>
+  </mat-list>
+</div>

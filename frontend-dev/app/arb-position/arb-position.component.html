@@ -1,0 +1,17 @@
+<mat-card>
+  <mat-card-title [ngClass]="{'plus': isPlusProfit, 'minus': isMinusProfit}">{{profit}} <span class="s">JPY ({{profitRatio}}%)</span></mat-card-title>
+  <mat-card-subtitle>目標スプレッドまで：{{targetSpread}} <span class="s">JPY ({{currentSpread}}/{{initialSpread}})</span></mat-card-subtitle>
+  <mat-card-content>
+  <ul>
+      <li><span class="bold-text">ステータス: </span>{{state}}</li>
+      <li><span class="bold-text">買い取引所: </span>{{bidExchange}}</li>
+      <li><span class="bold-text">売り取引所: </span>{{askExchange}}</li>
+      <li><span class="bold-text">オープン日時: </span>{{openDate}}</li>
+      <li><span class="bold-text">クローズ日時: </span>{{closeDate}}</li>
+  </ul>
+  </mat-card-content>
+  <mat-divider [inset]="true"></mat-divider>
+  <mat-card-actions *ngIf="position.isOpen">
+      <button class="btn" mat-button (click)="unwind()">Unwind</button>
+  </mat-card-actions>
+</mat-card>
