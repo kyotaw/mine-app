@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 
 import { ArbPosition } from '../models/arb-position.model';
 import { ArbPositionService } from '../services/arb-position.service';
+import { MineTradeApiService } from '../services/mine-trade-api.service';
 import { UserService } from '../services/user.service';
 import { environment } from '../../environments/environment';
 
@@ -16,11 +18,19 @@ export class ArbPositionListComponent implements OnInit {
 
     constructor(
         private arbPositionService: ArbPositionService,
+        private mineTradeService: MineTradeApiService,
         private userService: UserService) {
-        this.arbPositions= [];
+        this.arbPositions = [];
     }
 
     ngOnInit() {
+        this.updatePositions();
+        Observable.interval(60000)
+        .subscribe(() => {
+            this.updatePositions();
+        });
+    }
+    private updatePositions() {
         let user = this.userService.getUser();
         this.arbPositionService.getArbPositions(user.userId).subscribe(arbPositions => {
             this.arbPositions = arbPositions;

@@ -1,6 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
+
 import { ArbPosition } from '../models/arb-position.model';
+import { Ticker } from '../models/ticker.model';
+import { ExchangePriceService } from '../services/exchange-price.service';
 
 
 @Component({
@@ -12,16 +15,27 @@ export class ArbPositionComponent implements OnInit {
 
     @Input() position: ArbPosition;
     
-    constructor() {}
+    private bidExchangeTicker: Ticker;
+    private askExchangeTicker: Ticker;
+    
+    constructor(private priceService: ExchangePriceService) {
+        this.bidExchangeTicker = null;
+        this.askExchangeTicker = null;
+    }
 
     ngOnInit() {
-        /*
-        Observable.interval(5000)
-            .subscribe(() => this.channelService.getChannel(this.sensor).subscribe(channel => {
-                this.channel = channel;
-                this.sensor.status = channel.status;
-            }));
-        */
+        Observable.interval(2000)
+            .subscribe(() => {
+                if (this.position.isClosed) {
+                    return;
+                }
+                this.priceService.getTicker(this.position.bidPosition['exchange'], this.position.currencyPair).subscribe(ticker => {
+                    this.bidExchangeTicker = ticker;
+                });
+                this.priceService.getTicker(this.position.askPosition['exchange'], this.position.currencyPair).subscribe(ticker => {
+                    this.askExchangeTicker = ticker;
+                });
+            });
     }
     get profit() {
         let p = Math.floor(this.position.actualNetProfit);
@@ -46,11 +60,29 @@ export class ArbPositionComponent implements OnInit {
     }
 
     get currentSpread() {
-        return 100;
+        if (this.position.isClosed) {
+            return '-';
+        }
+        if (!this.bidExchangeTicker || !this.askExchangeTicker) {
+            return '-'
+        } else {
+            let bestAsk = this.position.isAskPositionClosed ? this.position.askPosition['close_price'] : this.askExchangeTicker.bestAskPrice;
+            let bestBid = this.position.isBidPositionClosed ? this.position.bidPosition['close_price'] : this.bidExchangeTicker.bestBidPrice;
+            let spread =  bestAsk - bestBid;
+            return Math.floor(spread);
+        }
     }
 
     get targetSpread() {
-        return 10;
+        return Math.floor(this.position.targetSpread);
+    }
+
+    get targetSpreadDiff() {
+        if (this.position.isClosed || this.currentSpread == '-') {
+            return '-';
+        } else {
+            return Math.floor(this.currentSpread - this.position.targetSpread);
+        }
     }
 
     get isPlusProfit() {

@@ -24,6 +24,7 @@ import { MineAppApiService } from './services/mine-app-api.service';
 import { MineTradeApiService } from './services/mine-trade-api.service';
 import { UserService } from './services/user.service';
 import { ArbPositionService } from './services/arb-position.service';
+import { ExchangePriceService } from './services/exchange-price.service';
 
 import { JwtIterceptor } from './interceptors/jwt.interceptor';
 import { CanActivateViaAuthGuardInterceptor } from './interceptors/can-activate-via-auth-guard.interceptor';
@@ -81,6 +82,7 @@ import { ArbPositionComponent } from './arb-position/arb-position.component';
       MineTradeApiService,
       UserService,
       ArbPositionService,
+      ExchangePriceService,
       {
         provide: HTTP_INTERCEPTORS,
         useClass: JwtIterceptor,

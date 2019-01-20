@@ -9,6 +9,7 @@ export class ArbPosition {
         public readonly currencyPair,
         public readonly targetExitProfitRatio: number,
         public readonly targetNetProfitRratio: number,
+        public readonly targetSpread: number,
         public readonly openBidPrice: number,
         public readonly openBidExchange: string,
         public readonly openAskPrice: number,
@@ -58,6 +59,14 @@ export class ArbPosition {
         
         get isClosed() {
             return this.status == 'closed'
+        }
+
+        get isBidPositionClosed() {
+            return this.bidPosition['status'] == 'closed'
+        }
+        
+        get isAskPositionClosed() {
+            return this.askPosition['status'] == 'closed'
         }
 
         get openTimestamp() {

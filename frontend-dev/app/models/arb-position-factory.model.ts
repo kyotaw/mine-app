@@ -10,6 +10,7 @@ export class ArbPositionFactory {
             CurrencyPair[data['currency_pair']],
             data['target_exit_profit_ratio'],
             data['target_net_profit_ratio'],
+            data['target_spread'],
             data['open_bid_price'],
             data['open_bid_exchange'],
             data['open_ask_price'],
