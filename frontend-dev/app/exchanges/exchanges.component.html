@@ -1,0 +1,33 @@
+<mat-table #table [dataSource]="exchanges" class="mat-elevation-z8">
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>取引所</mat-header-cell>
+    <mat-cell *matCellDef="let exchange">{{exchange.name}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="asset">
+    <mat-header-cell *matHeaderCellDef>総資産</mat-header-cell>
+    <mat-cell *matCellDef="let exchange">{{exchange.totalAsset}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="profit">
+    <mat-header-cell *matHeaderCellDef>総損益</mat-header-cell>
+    <mat-cell *matCellDef="let exchange">{{exchange.totalProfit}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="jpy">
+    <mat-header-cell *matHeaderCellDef>円</mat-header-cell>
+    <mat-cell *matCellDef="let exchange">{{exchange.jpy}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="btc">
+    <mat-header-cell *matHeaderCellDef>BTC</mat-header-cell>
+    <mat-cell *matCellDef="let exchange">{{exchange.btc}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="long">
+    <mat-header-cell *matHeaderCellDef>ロングポジション数</mat-header-cell>
+    <mat-cell *matCellDef="let exchange">{{exchange.longPositions}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="short">
+    <mat-header-cell *matHeaderCellDef>ショートポジション数</mat-header-cell>
+    <mat-cell *matCellDef="let exchange">{{exchange.shortPositions}}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

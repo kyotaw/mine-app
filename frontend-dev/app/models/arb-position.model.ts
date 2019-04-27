@@ -2,7 +2,8 @@ import { CurrencyPair } from '../models/currency-pair.model'
 
 
 export class ArbPosition {
-
+    unrealizedProfit: number;
+    
     constructor(
         public readonly id: number,
         public readonly status: string,
@@ -15,13 +16,17 @@ export class ArbPosition {
         public readonly openAskPrice: number,
         public readonly openAskExchange: string,
         public readonly openAmount: number,
-        public readonly openMakerTaker: string,
-        public readonly closeBidPrice: string,
+        public readonly openMakerTakerBid: string,
+        public readonly openMakerTakerAsk: string,
+        public readonly openSpread: number,
+        public readonly closeBidPrice: number,
         public readonly closeBidExchange: string,
-        public readonly closeAskPrice: string,
+        public readonly closeAskPrice: number,
         public readonly closeAskExchange: string,
         public readonly closeAmount: string,
-        public readonly closeMakerTaker: string,
+        public readonly closeMakerTakerBid: string,
+        public readonly closeMakerTakerAsk: string,
+        public readonly closeSpread: number,
         public readonly estimatedOpenCost: number,
         public readonly estimatedOpenCommission: number,
         public readonly estimatedCloseCommission: number,
@@ -37,8 +42,17 @@ export class ArbPosition {
         public readonly actualNetProfitRatio: number,
         public readonly actualExitProfitRatio: number,
         public readonly bidPosition: object,
-        public readonly askPosition: object) {
+        public readonly askPosition: object,
+        public readonly timestamp: number) {
+            this.unrealizedProfit = 0;
+        }
 
+        get tradeCurrency() {
+            return this.currencyPair.split('_')[0]
+        }
+
+        get settleCurrency() {
+            return this.currencyPair.split('_')[1]
         }
 
         get isOpen() {
@@ -73,22 +87,9 @@ export class ArbPosition {
             if (this.isOpening) {
                 return 0;
             }
-            var maxTs = 0;
-            for (let log of this.bidPosition['trade_logs']) {
-                if (log['trade_action'] == 'OPEN_POSITION') {
-                    let ts = log['timestamp']
-                    if (maxTs < ts) {
-                        maxTs = ts;
-                    }
-                }
-            }
-            for (let log of this.askPosition['trade_logs']) {
-                if (log['trade_action'] == 'OPEN_POSITION') {
-                    let ts = log['timestamp']
-                    if (maxTs < ts) {
-                        maxTs = ts;
-                    }
-                }
+            let maxTs = this.bidPosition['open_date'];
+            if (maxTs < this.askPosition['open_date']) {
+                maxTs = this.askPosition['open_date'];
             }
             return maxTs;
         }
@@ -97,22 +98,9 @@ export class ArbPosition {
             if (!this.isClosed) {
                 return 0;
             }
-            var maxTs = 0;
-            for (let log of this.bidPosition['trade_logs']) {
-                if (log['trade_action'] == 'CLOSE_POSITION') {
-                    let ts = log['timestamp']
-                    if (maxTs < ts) {
-                        maxTs = ts;
-                    }
-                }
-            }
-            for (let log of this.askPosition['trade_logs']) {
-                if (log['trade_action'] == 'CLOSE_POSITION') {
-                    let ts = log['timestamp']
-                    if (maxTs < ts) {
-                        maxTs = ts;
-                    }
-                }
+            let maxTs = this.bidPosition['close_date'];
+            if (maxTs < this.askPosition['close_date']) {
+                maxTs = this.askPosition['close_date'];
             }
             return maxTs;
         }

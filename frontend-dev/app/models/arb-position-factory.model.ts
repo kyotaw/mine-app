@@ -7,7 +7,7 @@ export class ArbPositionFactory {
         return new ArbPosition(
             data['id'],
             data['status'],
-            CurrencyPair[data['currency_pair']],
+            data['currency_pair'],
             data['target_exit_profit_ratio'],
             data['target_net_profit_ratio'],
             data['target_spread'],
@@ -16,13 +16,17 @@ export class ArbPositionFactory {
             data['open_ask_price'],
             data['open_ask_exchange'],
             data['open_amount'],
-            data['open_maker_taker'],
+            data['open_maker_taker_bid'],
+            data['open_maker_taker_ask'],
+            data['open_spread'],
             data['close_bid_price'],
             data['close_bid_exchange'],
             data['close_ask_price'],
             data['close_ask_exchange'],
             data['close_amount'],
-            data['close_maker_taker'],
+            data['close_maker_taker_bid'],
+            data['close_maker_taker_ask'],
+            data['close_spread'],
             data['estimated_open_cost'],
             data['estimated_open_commission'],
             data['estimated_close_commission'],
@@ -38,6 +42,7 @@ export class ArbPositionFactory {
             data['actual_net_profit_ratio'],
             data['actual_exit_profit_ratio'],
             data['bid_position'],
-            data['ask_position']);
+            data['ask_position'],
+            data['timestamp']);
     }
 }

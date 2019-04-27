@@ -1,17 +1,41 @@
 <mat-card>
-  <mat-card-title [ngClass]="{'plus': isPlusProfit, 'minus': isMinusProfit}">{{profit}} <span class="s">JPY ({{profitRatio}}%)</span></mat-card-title>
-  <mat-card-subtitle>目標スプレッドまで：{{targetSpreadDiff}} <span class="s">JPY<br/>({{currentSpread}} / {{targetSpread}} / {{initialSpread}})</span></mat-card-subtitle>
-  <mat-card-content>
+  <mat-card-title [ngClass]="{'plus': isPlusProfit, 'minus': isMinusProfit}">{{unrealizedProfitSigned}} <span class="s">{{settleCurrency}} ({{profitRatio}}%)</span></mat-card-title>
+  <mat-card-subtitle>目標スプレッドまで：{{targetSpreadDiff}} <span class="s">{{settleCurrency}}<br/>({{currentSpread}} / {{targetSpread}} / {{initialSpread}})</span></mat-card-subtitle>
+  <mat-card-content *ngIf="isOverview">
   <ul>
       <li><span class="bold-text">ステータス: </span>{{state}}</li>
-      <li><span class="bold-text">買い取引所: </span>{{bidExchange}}</li>
-      <li><span class="bold-text">売り取引所: </span>{{askExchange}}</li>
+      <li><span class="bold-text">買い取引所: </span>{{bidExchange}} {{bidOpenStatus}}</li>
+      <li><span class="bold-text">売り取引所: </span>{{askExchange}} {{askOpenStatus}}</li>
+      <li><span class="bold-text">数量: </span>{{amount}}</li>
       <li><span class="bold-text">オープン日時: </span>{{openDate}}</li>
       <li><span class="bold-text">クローズ日時: </span>{{closeDate}}</li>
   </ul>
   </mat-card-content>
+  <mat-card-content *ngIf="!isOverview">
+    <mat-table #table [dataSource]="details">
+        <ng-container matColumnDef="bidExchangeDetail">
+            <mat-header-cell *matHeaderCellDef>買い取引所</mat-header-cell>
+            <mat-cell *matCellDef="let detail">{{detail.bidExchangeDetailValue}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="itemName">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let detail" class="s">{{detail.itemName}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="askExchangeDetail">
+            <mat-header-cell *matHeaderCellDef>売り取引所</mat-header-cell>
+            <mat-cell *matCellDef="let detail">{{detail.askExchangeDetailValue}}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedDetailColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedDetailColumns;"></mat-row>
+    </mat-table>
+  </mat-card-content>
   <mat-divider [inset]="true"></mat-divider>
-  <mat-card-actions *ngIf="position.isOpen">
-      <button class="btn" mat-button (click)="unwind()">Unwind</button>
+  <mat-card-actions *ngIf="isOverview">
+      <button class="btn" mat-button (click)="showDetail()">詳細</button>
+      <button *ngIf="!isClosed" class="btn right" mat-button color="warn" (click)="close_position()">クローズ</button>
+  </mat-card-actions>
+  <mat-card-actions *ngIf="!isOverview">
+      <button class="btn" mat-button (click)="showOverview()">概要</button>
+      <button *ngIf="!isClosed" class="btn right" mat-button color="warn" (click)="close_position()">クローズ</button>
   </mat-card-actions>
 </mat-card>

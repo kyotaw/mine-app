@@ -13,6 +13,9 @@ import {
     MatSidenavModule,
     MatListModule,
     MatInputModule,
+    MatTableModule,
+    MatMenuModule,
+    MatMenu,
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout'; 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -40,6 +43,9 @@ import { DeleteAccountComponent } from './delete-account/delete-account.componen
 import { CertificationComponent } from './certification/certification.component';
 import { ArbPositionListComponent } from './arb-position-list/arb-position-list.component';
 import { ArbPositionComponent } from './arb-position/arb-position.component';
+import { ExchangesComponent } from './exchanges/exchanges.component';
+import { StatisticsComponent } from './statistics/statistics.component';
+import { SlippageComponent } from './slippage/slippage.component';
 
 @NgModule({
     declarations: [
@@ -53,6 +59,9 @@ import { ArbPositionComponent } from './arb-position/arb-position.component';
         CertificationComponent,
         ArbPositionListComponent,
         ArbPositionComponent,
+        ExchangesComponent,
+        StatisticsComponent,
+        SlippageComponent,
   ],
     imports: [
         BrowserModule,
@@ -68,6 +77,8 @@ import { ArbPositionComponent } from './arb-position/arb-position.component';
         MatSidenavModule,
         MatListModule,
         MatInputModule,
+        MatTableModule,
+        MatMenuModule,
         FlexLayoutModule,
         HttpClientModule,
         FormsModule,

@@ -13,14 +13,44 @@ export class MineTradeApiService {
     
     constructor(private http: HttpClient) {}
 
-    getArbPositions(userId: string): Observable<Object> {
-        const url = this.baseUrl + 'arbPositions/' + '1';
+    getArbPositions(userId: string, currencyPair: string): Observable<Object> {
+        let url = this.baseUrl + 'arbPositions/' + userId;
+        if (currencyPair) {
+            url += ('?' + 'currency_pair=' + currencyPair);
+        }
         return this._get(url);
     }
 
     getTicekrs(exchanges: string[], currencyPair: string) {
         const url = this.baseUrl + 'exchanges/tickers';
         return this._get(url, { 'exchanges': exchanges.join(','), 'currency_pair': currencyPair });
+    }
+
+    getAssets(userId: string, exchange: string, currencies: string[]) {
+        const url = this.baseUrl + 'exchanges/assets';
+        return this._get(url, {
+            'userId': userId,
+            'exchange': exchange,
+            'currencies': currencies.join(',')
+        });
+    }
+
+    closeArbPosition(
+        userId: string,
+        currencyPair: string,
+        positionId: number,
+        bidPrice: number,
+        askPrice: number,
+        amount: number,
+        orderType: string) {
+        const url = this.baseUrl + 'arbPositions/' + positionId.toString() + '/close';
+        return this._post(url, {
+            currency_pair: currencyPair,
+            bid_price: bidPrice,
+            ask_price: askPrice,
+            amount: amount,
+            order_type: orderType
+        });
     }
 
     _get(url, params={}) {

@@ -51,3 +51,23 @@ a.category {
 a.category:hover {
   background-color: #dbdbdb;
 }
+
+.plus {
+  color: blue
+}
+
+.minus {
+  color: red
+}
+
+.large {
+  font-size: 36pt;
+}
+
+.hrz {
+  display: inline-block;
+}
+
+.header {
+  width: 100%;
+}

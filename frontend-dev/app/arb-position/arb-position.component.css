@@ -9,3 +9,7 @@
 .s {
     font-size: small
 }
+
+.right {
+    float: right;
+}

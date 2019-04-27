@@ -10,12 +10,12 @@
         console.log('Lot Settings.js failed');
     }
 
-    Env.HOME_URL = 'http://localhost:4200';
+    Env.HOME_URL = process.env.HOME_URL || settings.HOME_URL || 'http://localhost:4200';
 
     Env.SRC_ROOT_DIR = __dirname;
 
 	Env.DB_HOST = process.env.DB_HOST || settings.DB_HOST || 'localhost';
-    Env.DB_NAME = process.env.DB_NAME || settings.DB_NAME || 'kairaidb';
+    Env.DB_NAME = process.env.DB_NAME || settings.DB_NAME || 'minedb';
     Env.DB_USER_NAME = process.env.DB_USER_NAME || settings.DB_USER_NAME || 'postgres2';
     Env.DB_PASSWORD = process.env.DB_PASSWORD || settings.DB_PASSWORD || '';
     Env.DATABASE_URL = process.env.DATABASE_URL || settings.DATABASE_URL || '';

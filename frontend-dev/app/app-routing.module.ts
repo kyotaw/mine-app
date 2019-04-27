@@ -8,11 +8,13 @@ import { ProfileComponent } from './profile/profile.component';
 import { SignupComponent } from './signup/signup.component';
 import { CertificationComponent } from './certification/certification.component';
 import { ArbPositionListComponent } from './arb-position-list/arb-position-list.component';
+import { ExchangesComponent } from './exchanges/exchanges.component';
 
 import { CanActivateViaAuthGuardInterceptor } from './interceptors/can-activate-via-auth-guard.interceptor';
 
 const routes: Routes = [
     { path: 'arb', component: ArbPositionListComponent, canActivate: [CanActivateViaAuthGuardInterceptor] },
+    { path: 'exchanges', component: ExchangesComponent, canActivate: [CanActivateViaAuthGuardInterceptor] },
     { path: 'profile', component: ProfileComponent, canActivate: [CanActivateViaAuthGuardInterceptor] },
     { path: 'profile/changepassword', component: ChangePasswordComponent, canActivate: [CanActivateViaAuthGuardInterceptor] },
     { path: 'profile/deleteaccount', component: DeleteAccountComponent, canActivate: [CanActivateViaAuthGuardInterceptor] },

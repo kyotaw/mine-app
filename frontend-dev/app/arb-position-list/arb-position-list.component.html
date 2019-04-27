@@ -5,14 +5,23 @@
         <a class="category" (click)="selectAll()">All ({{allArbPositionCount}})</a>
       </div>
       <div class="sidenav-item">
-        <a class="category" (click)="selectActiveArbPositions()">Active trades({{activeArbPositionCount}})</a>
+        <a class="category" (click)="selectOpenArbPositions()">Open Positions({{openArbPositionCount}})</a>
       </div>
       <div class="sidenav-item">
-        <a class="category" (click)="selectTerminatedArbPositions()">Terminated trades({{terminatedArbPositionCount}})</a>
+        <a class="category" (click)="selectClosedArbPositions()">Closed Positions({{closedArbPositionCount}})</a>
       </div>
     </div>
   </mat-drawer>
   <mat-drawer-content class="basic-container">
+    <div class="header">
+      <h1 class="hrz">確定損益 <span class="large" [ngClass]="{'plus': isPlus(totalProfit), 'minus': isMinus(totalProfit)}">{{totalProfit}}</span> {{settleCurrency}}</h1>
+      <h2 class="hrz">時価損益 <span class="large" [ngClass]="{'plus': isPlus(unrealizedProfit), 'minus': isMinus(unrealizedProfit)}">{{unrealizedProfit}}</span> {{settleCurrency}}</h2>
+      <button mat-button [matMenuTriggerFor]="menu">{{selectedCurrencyPair}}</button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="selectCurrencyPair('btc_jpy')">btc_jpy</button>
+        <button mat-menu-item (click)="selectCurrencyPair('btc_usd')">btc_usd</button>
+      </mat-menu>
+    </div>
     <div fxLayoutWrap fxLayoutGap="10px">
       <div fxFlex="300px" fxFlex.sm="33.3" fxFlex.xs="50" *ngFor="let position of selectedArbPositions">
           <app-arb-position [position]="position">
