@@ -2,13 +2,13 @@
   <mat-drawer mode="side" opened="true">
     <div class="sidenav-wrapper">
       <div class="sidenav-item">
-        <a class="category" (click)="selectAll()">All ({{allArbPositionCount}})</a>
+        <a class="category" (click)="selectAll()">All in 3 days ({{allArbPositionCount}})</a>
       </div>
       <div class="sidenav-item">
-        <a class="category" (click)="selectOpenArbPositions()">Open Positions({{openArbPositionCount}})</a>
+        <a class="category" (click)="selectClosedArbPositions()">Closed in 3 days({{closedArbPositionCount}})</a>
       </div>
       <div class="sidenav-item">
-        <a class="category" (click)="selectClosedArbPositions()">Closed Positions({{closedArbPositionCount}})</a>
+        <a class="category" (click)="selectOpenArbPositions()">Open({{openArbPositionCount}})</a>
       </div>
     </div>
   </mat-drawer>

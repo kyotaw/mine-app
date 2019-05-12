@@ -10,8 +10,13 @@ export class ArbPositionService {
 
   constructor(private mineTradeApi: MineTradeApiService) { }
 
-  getArbPositions(userId: string, currencyPair: string=null): Observable<ArbPosition[]> {
-    return this.mineTradeApi.getArbPositions(userId, currencyPair).map(json => {
+  getArbPositions(
+    userId: string,
+    currencyPair: string,
+    startDate: number=null,
+    endDate: number=null)
+    : Observable<ArbPosition[]> {
+    return this.mineTradeApi.getArbPositions(userId, currencyPair, startDate, endDate).map(json => {
         let positions: ArbPosition[] = [];
         for (let data of json['arb_positions']) {
             const position = ArbPositionFactory.create(data);
@@ -23,6 +28,18 @@ export class ArbPositionService {
     });
   }
 
+  getActiveArbPositions(userId: string, currencyPair: string) : Observable<ArbPosition[]> {
+    return this.mineTradeApi.getAcitiveArbPositions(userId, currencyPair).map(json => {
+        let positions: ArbPosition[] = [];
+        for (let data of json['arb_positions']) {
+            const position = ArbPositionFactory.create(data);
+            if (position) {
+              positions.push(position);
+            }
+        }
+        return positions;
+    });
+  }
   closePosition(
     userId: string,
     position: ArbPosition,

@@ -30,7 +30,7 @@ export class ExchangesComponent implements OnInit {
 
   ngOnInit() {
       let user = this.userService.getUser();
-      this.arbPositionService.getArbPositions('mineuser').subscribe(arbPositions => {
+      this.arbPositionService.getArbPositions('mineuser', 'btc_jpy').subscribe(arbPositions => {
           this.buildExchanges(arbPositions)
       });
   }

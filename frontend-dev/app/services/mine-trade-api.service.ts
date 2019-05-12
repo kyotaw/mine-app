@@ -4,7 +4,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
-import { environment } from '../../environments/environment'
+import { environment } from '../../environments/environment';
+import { UrlUtils } from './url-utils';
 
 @Injectable()
 export class MineTradeApiService {
@@ -13,11 +14,27 @@ export class MineTradeApiService {
     
     constructor(private http: HttpClient) {}
 
-    getArbPositions(userId: string, currencyPair: string): Observable<Object> {
+    getArbPositions(
+        userId: string,
+        currencyPair: string,
+        startDate: number,
+        endDate: number)
+        : Observable<Object> {
         let url = this.baseUrl + 'arbPositions/' + userId;
-        if (currencyPair) {
-            url += ('?' + 'currency_pair=' + currencyPair);
+        let params = { 'currency_pair': currencyPair };
+        if (startDate) {
+            params['start_date'] = startDate;
         }
+        if (endDate) {
+            params['end_date'] = endDate;
+        }
+        url = UrlUtils.makeQueryUrl(url, params);
+        return this._get(url);
+    }
+
+    getAcitiveArbPositions(userId: string, currencyPair: string): Observable<Object> {
+        let url = this.baseUrl + 'arbPositions/' + userId + '/active';
+        url = UrlUtils.makeQueryUrl(url, {'currency_pair': currencyPair});
         return this._get(url);
     }
 

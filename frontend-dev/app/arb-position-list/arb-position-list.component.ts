@@ -14,6 +14,8 @@ import { environment } from '../../environments/environment';
 })
 export class ArbPositionListComponent implements OnInit, OnDestroy {
     arbPositions: ArbPosition[];
+    activePositions: ArbPosition[];
+    closedPositions: ArbPosition[];
     selectedArbPositions: ArbPosition[];
     subscription: Subscription;
     selectMode: string;
@@ -24,6 +26,8 @@ export class ArbPositionListComponent implements OnInit, OnDestroy {
         private mineTradeService: MineTradeApiService,
         private userService: UserService) {
         this.arbPositions = [];
+        this.activePositions = [];
+        this.closedPositions = [];
         this.selectedArbPositions = [];
         this.subscription = null;
         this.selectMode = 'all';
@@ -46,20 +50,29 @@ export class ArbPositionListComponent implements OnInit, OnDestroy {
 
     private updatePositions() {
         let user = this.userService.getUser();
-        this.arbPositionService.getArbPositions('mineuser', this.selectedCurrencyPair).subscribe(arbPositions => {
+        const userName = environment.demo_mode ? 'demouser' : 'mineuser';
+        this.arbPositionService.getArbPositions(userName, this.selectedCurrencyPair).subscribe(arbPositions => {
             this.arbPositions = arbPositions;
-            this,arbPositions.sort((a, b) => {
+            this.arbPositions.sort((a, b) => {
                 if (a.timestamp < b.timestamp) return 1;
                 if (a.timestamp > b.timestamp) return -1;
                 return 0;
             });
-            if (this.selectMode == 'open') {
-                this.selectOpenArbPositions()
-            } else if (this.selectMode == 'closed') {
-                this.selectClosedArbPositions();
-            } else {
-                this.selectAll();
+            this.closedPositions = this._getClosedArbPositions();
+            switch (this.selectMode) {
+                case 'all': this.selectAll(); break;
+                case 'closed': this.selectClosedArbPositions(); break;
+                case 'open': this.selectOpenArbPositions(); break;
             }
+        });
+
+        this.arbPositionService.getActiveArbPositions(userName, this.selectedCurrencyPair).subscribe(arbPositions => {
+            this.activePositions = arbPositions;
+            this.activePositions.sort((a, b) => {
+                if (a.timestamp < b.timestamp) return 1;
+                if (a.timestamp > b.timestamp) return -1;
+                return 0;
+            });
         });
     }
 
@@ -103,16 +116,16 @@ export class ArbPositionListComponent implements OnInit, OnDestroy {
     }
 
     get openArbPositionCount() {
-        if (this.arbPositions) {
-            return this.arbPositions.filter(s => { return !s.isClosed; }).length;
+        if (this.activePositions) {
+            return this.activePositions.length;
         } else {
             return 0;
         }
     }
 
     get closedArbPositionCount() {
-        if (this.arbPositions) {
-            return this.arbPositions.filter(s => { return s.isClosed; }).length;
+        if (this.closedPositions) {
+            return this.closedPositions.length;
         } else {
             return 0;
         }
@@ -125,21 +138,17 @@ export class ArbPositionListComponent implements OnInit, OnDestroy {
 
     selectOpenArbPositions() {
         this.selectMode = 'open';
-        this.selectedArbPositions = this._getOpenArbPositions();
+        this.selectedArbPositions = this.activePositions;
     }
 
     selectClosedArbPositions() {
         this.selectMode = 'closed';
-        this.selectedArbPositions = this._getClosedArbPositions();
+        this.selectedArbPositions = this.closedPositions;
     }
 
     selectCurrencyPair(currencyPair: string) {
         this.selectedCurrencyPair = currencyPair;
         this.updatePositions();
-    }
-
-    _getOpenArbPositions() {
-        return this.arbPositions.filter(s => { return !s.isClosed; });
     }
 
     _getClosedArbPositions() {
